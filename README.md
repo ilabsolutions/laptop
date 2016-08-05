@@ -112,8 +112,10 @@ Programming languages and configuration:
 Databases:
 
 * [Redis] for storing key-value data
+* [Mysql] for storing relational data
 
 [Redis]: http://redis.io/
+[Mysql]: https://www.mysql.com/
 
 It should take less than 15 minutes to install (depends on your machine).
 
