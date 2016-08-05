@@ -85,13 +85,14 @@ Testing tools:
 Programming languages and configuration:
 
 * [Bundler] for managing Ruby libraries
+* [Java] for running Java packages
 * [Node.js] and [NPM], for running apps and installing JavaScript packages
 * [Rbenv] for managing versions of Ruby
 * [Ruby Build] for installing Rubies
 * [Ruby] stable for writing general-purpose code
 
 [Bundler]: http://bundler.io/
-[ImageMagick]: http://www.imagemagick.org/
+[Java]: https://java.com
 [Node.js]: http://nodejs.org/
 [NPM]: https://www.npmjs.org/
 [Rbenv]: https://github.com/sstephenson/rbenv
