@@ -111,15 +111,8 @@ brew "vim"
 brew "zsh"
 brew "cmake"
 
-# Heroku
-brew "heroku-toolbelt"
-brew "parity"
-
 # GitHub
 brew "hub"
-
-# Image manipulation
-brew "imagemagick"
 
 # Testing
 brew "qt"

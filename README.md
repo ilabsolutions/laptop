@@ -70,22 +70,11 @@ Unix tools:
 [Tmux]: http://tmux.github.io/
 [Zsh]: http://www.zsh.org/
 
-Heroku tools:
-
-* [Heroku Toolbelt] and [Parity] for interacting with the Heroku API
-
-[Heroku Toolbelt]: https://toolbelt.heroku.com/
-[Parity]: https://github.com/thoughtbot/parity
-
 GitHub tools:
 
 * [Hub] for interacting with the GitHub API
 
 [Hub]: http://hub.github.com/
-
-Image tools:
-
-* [ImageMagick] for cropping and resizing images
 
 Testing tools:
 
