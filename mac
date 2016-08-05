@@ -129,6 +129,7 @@ brew "libyaml" # should come after openssl
 brew "node"
 brew "rbenv"
 brew "ruby-build"
+cask "java"
 
 # Databases
 brew "redis", restart_service: true
