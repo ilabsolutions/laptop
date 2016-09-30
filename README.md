@@ -25,7 +25,7 @@ Install
 Download, review, then execute the script:
 
 ```sh
-curl --remote-name https://raw.githubusercontent.com/ilabsolutions/laptop/master/mac 
+curl --remote-name https://raw.githubusercontent.com/ilabsolutions/laptop/master/mac
 less mac
 sh mac 2>&1 | tee ~/laptop.log
 ```
@@ -75,6 +75,12 @@ GitHub tools:
 * [Hub] for interacting with the GitHub API
 
 [Hub]: http://hub.github.com/
+
+Dev tools:
+
+* [Kdiff3] Graphical diff tool
+
+[Kdiff3]: http://kdiff3.sourceforge.net/
 
 Testing tools:
 

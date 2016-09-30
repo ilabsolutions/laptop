@@ -114,6 +114,9 @@ brew "cmake"
 # GitHub
 brew "hub"
 
+# Dev tools
+cask "kdiff3"
+
 # Testing
 brew "qt"
 
