@@ -23,10 +23,11 @@ fi
 # shellcheck disable=SC2016
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
-sudo chgrp -R admin /usr/local 
-sudo chmod -R g+w /usr/local
-sudo chgrp -R admin /Library/Caches/Homebrew || true
-sudo chmod -R g+w /Library/Caches/Homebrew || true
+if [ "$(ls -dl /usr/local | awk '{ print $4 }')" != "admin" ];then
+	echo "Amended group ownership of /usr/local"
+	sudo chgrp -R admin /usr/local 
+	sudo chmod -R g+w /usr/local
+fi
 
 if [ -d "$HOMEBREW_PREFIX" ]; then
   if ! [ -r "$HOMEBREW_PREFIX" ]; then
@@ -67,6 +68,14 @@ fi
 fancy_echo "Updating Homebrew formulae ..."
 brew update
 brew link gdbm
+
+# Fix brew using system openssl instead of latest
+brew install openssl
+if [ ! -f /usr/local/opt/openssl ];then
+	brew_openssl="$(brew --prefix openssl)/bin/openssl"
+	ln -s $brew_openssl /usr/local/opt/openssl
+fi
+
 brew bundle --file=- <<EOF
 tap "thoughtbot/formulae"
 tap "homebrew/services"
@@ -74,7 +83,6 @@ tap "homebrew/services"
 # Unix
 brew "ctags"
 brew "git"
-brew "openssl"
 brew "rcm"
 brew "reattach-to-user-namespace"
 brew "the_silver_searcher"
@@ -115,7 +123,7 @@ append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
 eval "$(rbenv init -)"
 
 if ! rbenv versions | grep -Fq "$ruby_version"; then
-  RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl rbenv install -s "$ruby_version"
+	RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usre/local/opt/openssl  rbenv install -s "$ruby_version"
 fi
 
 rbenv global "$ruby_version"
