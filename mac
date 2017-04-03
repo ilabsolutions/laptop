@@ -24,19 +24,9 @@ fi
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
 if [ "$(ls -dl /usr/local | awk '{ print $4 }')" != "admin" ];then
-	echo "Amended group ownership of /usr/local"
+	echo "Amending group ownership of /usr/local"
 	sudo chgrp -R admin /usr/local 
 	sudo chmod -R g+w /usr/local
-fi
-
-if [ -d "$HOMEBREW_PREFIX" ]; then
-  if ! [ -r "$HOMEBREW_PREFIX" ]; then
-    sudo chown -R "$LOGNAME:admin" /usr/local
-  fi
-else
-  sudo mkdir "$HOMEBREW_PREFIX"
-  sudo chflags norestricted "$HOMEBREW_PREFIX"
-  sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
 fi
 
 case "$SHELL" in
@@ -71,9 +61,12 @@ brew link gdbm
 
 # Fix brew using system openssl instead of latest
 brew install openssl
+
 if [ ! -f /usr/local/opt/openssl ];then
 	brew_openssl="$(brew --prefix openssl)/bin/openssl"
-	ln -s $brew_openssl /usr/local/opt/openssl
+	brew install rbenv ruby-build --with-openssl-dir=$brew_openssl
+else
+	brew install rbenv ruby-build
 fi
 
 brew bundle --file=- <<EOF
@@ -103,8 +96,6 @@ brew "qt"
 # Programming languages
 brew "libyaml" # should come after openssl
 brew "node"
-brew "rbenv"
-brew "ruby-build"
 cask "java"
 
 # Databases
