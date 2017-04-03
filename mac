@@ -55,20 +55,24 @@ if brew list | grep -Fq brew-cask; then
   brew uninstall --force brew-cask
 fi
 
+# Updating to latest OpenSSL and linking to default
+if [ ! -d /usr/local/opt/openssl ]; then
+	echo "Installing latest OpenSSL version.  This will take a while..."
+	cd /tmp
+	curl -s --remote-name https://www.openssl.org/source/openssl-1.1.0e.tar.gz > /dev/null
+	tar -xzf openssl-1.1.0e.tar.gz 
+	cd openssl-1.1.0e
+	./config --prefix=/usr/local/ruby_devenv/openssl-1.1.0e > /dev/null
+	make -sw depend > /dev/null
+	make -sw > /dev/null
+	make -sw install > /dev/null
+	ln -s /usr/local/ruby_devenv/openssl-1.1.0e /usr/local/opt/openssl || true
+	cd /tmp && rm -rf /tmp/openssl-1.1.0e.tar.gz /tmp/openssl-1.1.0e
+fi
+
 fancy_echo "Updating Homebrew formulae ..."
 brew update
 brew link gdbm
-
-# Fix brew using system openssl instead of latest
-brew install openssl
-
-if [ ! -f /usr/local/opt/openssl ];then
-	brew_openssl="$(brew --prefix openssl)/bin/openssl"
-	brew install rbenv ruby-build --with-openssl-dir=$brew_openssl
-else
-	brew install rbenv ruby-build
-fi
-
 brew bundle --file=- <<EOF
 tap "thoughtbot/formulae"
 tap "homebrew/services"
@@ -83,6 +87,8 @@ brew "tmux"
 brew "vim"
 brew "zsh"
 brew "cmake"
+brew "ruby-build"
+brew "rbenv"
 
 # GitHub
 brew "hub"
@@ -114,7 +120,7 @@ append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
 eval "$(rbenv init -)"
 
 if ! rbenv versions | grep -Fq "$ruby_version"; then
-	RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usre/local/opt/openssl  rbenv install -s "$ruby_version"
+	RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl rbenv install -s "$ruby_version"
 fi
 
 rbenv global "$ruby_version"
