@@ -23,6 +23,11 @@ fi
 # shellcheck disable=SC2016
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
+sudo chgrp -R admin /usr/local 
+sudo chmod -R g+w /usr/local
+sudo chgrp -R admin /Library/Caches/Homebrew || true
+sudo chmod -R g+w /Library/Caches/Homebrew || true
+
 if [ -d "$HOMEBREW_PREFIX" ]; then
   if ! [ -r "$HOMEBREW_PREFIX" ]; then
     sudo chown -R "$LOGNAME:admin" /usr/local
@@ -61,6 +66,7 @@ fi
 
 fancy_echo "Updating Homebrew formulae ..."
 brew update
+brew link gdbm
 brew bundle --file=- <<EOF
 tap "thoughtbot/formulae"
 tap "homebrew/services"
@@ -162,7 +168,4 @@ gem_install_or_update() {
 }
 
 # Script entry point
-if [ ! -f /tmp/laptop_configured ];then
-	touch /tmp/laptop_configured
-	main "$@"
-fi
+main "$@"
